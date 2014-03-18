@@ -5,18 +5,18 @@ title=
 message=
 
 # options may be followed by one colon to indicate they have a required argument
-if ! options=$(getopt -u -o vH:t:m: -l version,host:,title:,message: -- "$@")
+if ! options=$(getopt -o vH:t:m: -l version,host:,title:,message: -- "${@}")
 then
     # something went wrong, getopt will put out an error message for us
     exit 1
 fi
 
-set -- $options
+eval set -- $options
 
 while [ $# -gt 0 ]
 do
     case $1 in
-    -v|--version) echo "1.0.0"; exit 1;;
+    -v|--version) echo "1.0.0"; exit 0;;
     -H|--host) host="$2" ; shift;;
     -t|--title) title="$2" ; shift;;
     -m|--message) message="$2" ; shift;;
