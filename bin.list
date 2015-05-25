@@ -1,0 +1,7 @@
+script/build-cscope-index.sh
+script/tmux-exec-all.sh
+script/wait.sh
+script/growl/growlnotify
+script/growl/growldo.sh
+svn/svn-ignore-append.sh
+svn/svn-ignore-set.sh
