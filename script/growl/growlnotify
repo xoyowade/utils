@@ -11,7 +11,7 @@ then
     exit 1
 fi
 
-eval set -- $options
+eval set -- "$options";
 
 while [ $# -gt 0 ]
 do
