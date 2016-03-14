@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# author: xzw
+
+# exit on error
+set -e
+# debug flag
+# set -x 
+
+project=
+workspace=~/workspace2
+build_args=-d
+
+script_dir=`dirname $0`
+
+usage() {
+  echo "--------------------------"
+  echo "Checkout code and build"
+  echo "Usage: $0 <args>"
+  echo "-h,--help        print usage"
+  echo "-p,--project     project name(required)"
+  echo "-w,--workspace   workspace dir(Default:$workspace)"
+  echo "-b,--build-args  build.py args(Default:$build_args)"
+}
+
+report() {
+  echo $1 >&2
+}
+
+# options may be followed by one colon to indicate they have a required argument
+if ! options=$(getopt -o hp:w: -l "help,project:workspace:" -- "${@}")
+then
+  # something went wrong, getopt will put out an error message for us
+  exit 1
+fi
+
+eval set -- $options
+
+while [ $# -gt 0 ]
+do
+  case $1 in
+  -h|--help) usage; exit 0;;
+  -p|--project) project="$2" ; shift;;
+  -w|--workspace) workspace="$2" ; shift;;
+  (--) shift; break;;
+  (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
+  (*) break;;
+  esac
+  shift
+done
+
+[ -z "$project" ] && echo "project name is not set" >&2 && usage && exit 1
+
+mkdir -p $workspace/$project
+cd $workspace/$project
+svn co svn://svnserver/hft/trunk hft
+cd hft
+python tradepy/tool/exchange_lib.py
+python tradepy/tool/build.py $build_args
+sh $script_dir/build_cscope_files.sh

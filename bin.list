@@ -1,6 +1,7 @@
-script/build-cscope-index.sh
+script/build_cscope_files.sh
 script/tmux-exec-all.sh
 script/wait.sh
+script/utf8.sh
 script/growl/growlnotify
 script/growl/growldo.sh
 svn/svn-ignore-append.sh
